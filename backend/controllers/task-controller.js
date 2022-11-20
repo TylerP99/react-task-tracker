@@ -25,7 +25,7 @@ const createTask = async (req, res, next) => {
 
         const errors = validateTask(task);
 
-        if(errors) {
+        if(errors.length) {
             return res.status(400).json({errors});
         }
 
@@ -50,7 +50,7 @@ const updateTask = async (req, res, next) => {
 
         const errors = validateTask(task);
 
-        if(errors) {
+        if(errors.length) {
             return res.status(400).json({errors});
         }
 

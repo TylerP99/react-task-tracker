@@ -5,13 +5,17 @@ const TaskSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    day: {
+    date: {
         type: String,
         default: "",
     },
     reminder: {
         type: Boolean,
         default: false,
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
     }
 }, {timestamps: true});
 
