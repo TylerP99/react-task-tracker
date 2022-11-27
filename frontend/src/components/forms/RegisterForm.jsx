@@ -3,43 +3,11 @@ import { useNavigate } from "react-router-dom"
 
 const API_BASE = "http://localhost:5000"
 
-function RegisterForm() {
+function RegisterForm({formData, onChange, onSubmit}) {
 
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-      email: "",
-      password: "",
-      password2: "",
-  })
-
   const {email, password, password2} = formData;
-
-  const onChange = (e) => {
-    setFormData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }));
-  }
-
-  const onSubmit = async (e) => {
-      e.preventDefault();
-      
-      const res = await fetch(
-        API_BASE + "/api/users/register",
-        {
-          method: "POST",
-          headers: { "Content-Type":"application/json"},
-          body: JSON.stringify({...formData}),
-        }
-      );
-
-      const data = await res.json();
-
-      console.log(data);
-
-      navigate("/login");
-  }
 
   return (
     <form onSubmit={onSubmit}>

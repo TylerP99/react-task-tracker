@@ -1,6 +1,9 @@
-import Task from "./Task"
+import {useState, useEffect} from "react";
+
+import Task from "./Task";
 
 function Tasks({tasks, onDelete, onToggle}) {
+
   return (
     <>
       {tasks.map(task => (

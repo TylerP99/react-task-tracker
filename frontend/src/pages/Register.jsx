@@ -2,11 +2,15 @@ import React from 'react'
 
 import RegisterForm from '../components/forms/RegisterForm'
 
-function Register() {
+function Register({formData, onChange, onSubmit}) {
   return (
     <div>
       <h1>Register</h1>
-      <RegisterForm/>
+      <RegisterForm
+      formData={formData}
+      onSubmit={onSubmit}
+      onChange={onChange}
+      />
     </div>
   )
 }

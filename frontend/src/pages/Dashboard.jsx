@@ -1,4 +1,6 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect} from "react";
+
+import taskService from "../features/taskService";
 
 import Header from '../components/Header';
 import Tasks from '../components/Tasks';
@@ -26,12 +28,25 @@ function Dashboard() {
           reminder: false,
       },
     ]);
-  
+
+    useEffect(() => {
+      const getTasks = async () => {
+        const tasks = await taskService.getTasks();
+        console.log(tasks);
+
+        //setTasks(tasks);
+      };
+      getTasks();
+    }, [tasks]);
+
     // Add task
     const addTask = (task) => {
-      const id = Math.floor(Math.random() * 100000) + 1;
-      const newTask = {id, ...task};
-      setTasks([...tasks, newTask])
+      // Send to db
+      (async () => {
+        const newTask = await taskService.createTask(task);
+
+        setTasks({...tasks, newTask})
+      })()
     }
   
     // Delete Task

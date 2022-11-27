@@ -1,11 +1,6 @@
 import { useState } from "react"
-import {useNavigate} from "react-router-dom"
-
-const API_BASE = "http://localhost:5000";
 
 function LoginForm() {
-
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
       email: "",
@@ -23,12 +18,6 @@ function LoginForm() {
 
   const onSubmit = (e) => {
       e.preventDefault();
-      
-      const res = await fetch(API_BASE + "/api/users/authenticate",
-        {
-          
-        }
-      );
   }
 
   return (

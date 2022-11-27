@@ -4,7 +4,11 @@ const User = require("../models/User");
 
 
 
+const getUser = async (req, res) => {
+    const user = (req.user) ? req.user : null;
 
+    res.status(200).json({user: user});
+}
 
 const registerUser = async (req, res, next) => {
     const user = {
@@ -24,7 +28,13 @@ const registerUser = async (req, res, next) => {
         errors.push({msg: "Passwords must match"});
     }
 
-    if(errors.length) return res.status(400).json({errors});
+    const existing = await User.findOne({email: user.email});
+
+    if(existing) {
+        errors.push({msg: "A user with that email already exists"});
+    }
+
+    if(errors.length) return res.status(400).json({errors: errors});
 
     user.password = await bcrypt.hash(user.password, 10);
 
@@ -32,7 +42,7 @@ const registerUser = async (req, res, next) => {
 
     req.logIn(newUser, (err) => {
         if(err) return next(err);
-        res.status(201).json(newUser);
+        res.status(201).json({user:newUser});
     });
 };
 
@@ -47,7 +57,7 @@ const authenticateUser = async (req, res, next) => {
         errors.push({msg: "Password can not be empty"});
     }
 
-    if(errors.length) return res.status(400).json({errors});
+    if(errors.length) return res.status(400).json({errors: errors});
 
     passport.authenticate("local",
         (err, user, info) => {
@@ -63,7 +73,7 @@ const authenticateUser = async (req, res, next) => {
                 return res.status(200).json({user});
             });
         }
-    );
+    )(req,res,next);
 };
 
 const logOutUser = async (req, res, next) => {
@@ -76,6 +86,7 @@ const logOutUser = async (req, res, next) => {
 
 
 module.exports = {
+    getUser,
     registerUser,
     authenticateUser,
     logOutUser,
